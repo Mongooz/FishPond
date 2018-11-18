@@ -31,7 +31,7 @@ class Body {
 		float offsetAngle = 0.15 * sin(offset);
     nodes.set(1, new PVector(-space.x * cos(heading + offsetAngle) + nodes.get(0).x, -space.x * sin(heading + offsetAngle) + nodes.get(0).y));
 
-		for ( int n = 2; n < bodyLength; n++ ) {
+		for ( int n = 2; n < nodes.size(); n++ ) {
       PVector diff = PVector.sub(nodes.get(n), nodes.get(n-2));
       PVector pos = new PVector(nodes.get(n-1).x + (diff.x * space.x) / diff.mag(), nodes.get(n-1).y + (diff.y * space.x) / diff.mag());
 
@@ -50,7 +50,7 @@ class Body {
     fill(colour);
     noStroke();
     beginShape(TRIANGLE_STRIP);
-    for (int n = 0; n < bodyLength; n++) {
+    for (int n = 0; n < nodes.size(); n++) {
       PVector diff = PVector.sub(nodes.get(max(1, n)), nodes.get(max(0, n-1))); 
       float angle = -atan2(diff.y, diff.x);
       float b = bezierPoint( 2, size.y, size.y * 0.75, 0, n / float(nodes.size() - 1));

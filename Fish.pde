@@ -8,14 +8,14 @@ class Fish
   float size = 0.75;
 
   Fish() {
-    heading = new PVector(100, 100);
+    heading = null;
     location = new PVector(100, 100);
     velocity = new PVector(0, 0);
     
     float tailSizeW = 50;
     float tailSizeH = tailSizeW * 0.1;
     
-    body = new Body( tailSizeW, tailSizeH, 20 );
+    body = new Body(tailSizeW, tailSizeH, 20);
   }
   
   void render() {
@@ -26,11 +26,13 @@ class Fish
   }
 
   void update() {
-    PVector acceleration =heading == null ? new PVector() : 
-    PVector.sub(heading,location).normalize();
+    PVector acceleration = heading == null ? new PVector(0, 0) : PVector.sub(heading, location);
+    if (acceleration.mag() < 10) {
+      acceleration = new PVector(velocity.x * -0.5, velocity.y * -0.5);
+    }
+
     velocity.add(acceleration);
     velocity.limit(maxSpeed);
-    
     location.add(velocity);
     body.update(velocity);
   }

@@ -37,7 +37,7 @@ class Fish
     body.update(velocity);
   }
   
-  void eat(color food) {
-    body.colour = color((red(body.colour) + red(food)) / 2, (green(body.colour) + green(food)) / 2,(blue(body.colour) + blue(food)) / 2);
+  void eat(Food food) {
+    body.colour = color((red(body.colour) + red(food.colour)) / 2, (green(body.colour) + green(food.colour)) / 2,(blue(body.colour) + blue(food.colour)) / 2);
   }
 }

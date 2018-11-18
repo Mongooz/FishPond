@@ -41,13 +41,13 @@ class Body {
 
   void render() {
     // head
+    fill(colour);
     pushMatrix();
     rotate(heading);
     ellipse(0, 0, 15, 10);
     popMatrix();
     
     // tail
-    fill(colour);
     noStroke();
     beginShape(TRIANGLE_STRIP);
     for (int n = 0; n < nodes.size(); n++) {

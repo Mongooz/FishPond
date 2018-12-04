@@ -28,7 +28,8 @@ class Fish
   void update() {
     PVector acceleration = heading == null ? new PVector(0, 0) : PVector.sub(heading, location);
     if (acceleration.mag() < 10) {
-      acceleration = new PVector(velocity.x * -0.5, velocity.y * -0.5);
+      heading = null;
+      acceleration = new PVector(velocity.x * -0.1, velocity.y * -0.1);
     }
 
     velocity.add(acceleration);
@@ -39,5 +40,25 @@ class Fish
   
   void eat(Food food) {
     body.colour = color((red(body.colour) + red(food.colour)) / 2, (green(body.colour) + green(food.colour)) / 2,(blue(body.colour) + blue(food.colour)) / 2);
+    
+    body.bodyLength++;
+    maxSpeed *= 0.9;
+  }
+
+  void findFood(ArrayList<Food> foods) {
+    float closestDistance = 1000;
+
+    for (int i=0; i<foods.size(); i++) {
+      Food food = foods.get(i);
+      float mag = PVector.sub(food.location, location).mag();
+      if (mag < closestDistance) {
+        heading = food.location;
+        closestDistance = mag;
+      }
+    }
+    
+    if (heading == null && closestDistance > 500) {
+      heading = new PVector(random(width), random(height));
+    }
   }
 }

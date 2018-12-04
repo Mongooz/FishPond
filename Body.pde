@@ -2,7 +2,6 @@ class Body {
   int bodyLength;
   ArrayList<PVector> nodes;
 	PVector size;
-	PVector space;
 	float heading;
   float offset;
   color colour = color(0,0,0);
@@ -12,10 +11,9 @@ class Body {
     bodyLength = max(initialLength, 2);
 		size = new PVector(sizeX, sizeY);
 		nodes = new ArrayList<PVector>();
-		space = new PVector(sizeX / float(bodyLength + 1), sizeY / 2.0);
 		
     for ( int n = 0; n < bodyLength; n++ ) {
-      nodes.add(new PVector(space.x * n, space.y));
+      nodes.add(new PVector(sizeX / float(bodyLength + 1) * n, size.y / 2.0));
     }
 	}
 
@@ -25,15 +23,16 @@ class Body {
   
     nodes.set(0, new PVector(cos(heading), sin(heading)));
     for (int n = nodes.size()-1; n < bodyLength; n++ ) {
-      nodes.add(new PVector(space.x * n, space.y));
+      size = new PVector(size.x + 3, size.y * 1.1);
+      nodes.add(new PVector((size.x / float(bodyLength + 1)) * n, size.y / 2.0));
     }
 		
 		float offsetAngle = 0.15 * sin(offset);
-    nodes.set(1, new PVector(-space.x * cos(heading + offsetAngle) + nodes.get(0).x, -space.x * sin(heading + offsetAngle) + nodes.get(0).y));
+    nodes.set(1, new PVector(-(size.x / float(bodyLength + 1)) * cos(heading + offsetAngle) + nodes.get(0).x, -(size.x / float(bodyLength + 1)) * sin(heading + offsetAngle) + nodes.get(0).y));
 
 		for ( int n = 2; n < nodes.size(); n++ ) {
       PVector diff = PVector.sub(nodes.get(n), nodes.get(n-2));
-      PVector pos = new PVector(nodes.get(n-1).x + (diff.x * space.x) / diff.mag(), nodes.get(n-1).y + (diff.y * space.x) / diff.mag());
+      PVector pos = new PVector(nodes.get(n-1).x + (diff.x * (size.x / float(bodyLength + 1))) / diff.mag(), nodes.get(n-1).y + (diff.y * (size.x / float(bodyLength + 1))) / diff.mag());
 
       nodes.set(n, pos);
 		}

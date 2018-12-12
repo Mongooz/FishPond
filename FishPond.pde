@@ -1,15 +1,31 @@
 private Fish fish;
 private Fish other;
 ArrayList<Food> foods;
+PVector offset;
 
 void setup() {
   size(1024, 768, P2D);
   fish = new Fish();
   other = new Fish();
   foods = new ArrayList<Food>();
+  offset = new PVector(0, 0);
 }
 
 void draw() {
+  if (fish.location.x > width - offset.x - 50) {
+    offset.x -= width / 2;
+  }
+  if (fish.location.y > height - offset.y - 50) {
+    offset.y -= width / 2;
+  }
+  if (fish.location.x < 50 - offset.x) {
+    offset.x += width / 2;
+  }
+  if (fish.location.y < 50 - offset.y) {
+    offset.y += width / 2;
+  }
+  
+  translate(offset.x, offset.y);
   update();
   fish.render();
   other.render();
@@ -18,6 +34,7 @@ void draw() {
 void update() {
   background(235, 244, 250);
   fish.update();
+  
   updateOther();
 
   for (int i=0; i<foods.size(); i++) {
@@ -41,7 +58,7 @@ void update() {
 }
 
 void spawnFood() {
-  PVector location = new PVector(random(50, width-50), random(50,height-50));
+  PVector location = new PVector(random(50-offset.x, width-50-offset.x), random(50-offset.y,height-50-offset.y));
   color colour = color(random(255),random(255),random(255));
   
   foods.add(new Food(location, colour));
@@ -67,6 +84,6 @@ boolean checkCollisions(Food food) {
 }
 
 void mousePressed() {
-  fish.heading = new PVector(mouseX, mouseY);
+  fish.heading = new PVector(mouseX-offset.x, mouseY-offset.y);
 }
   

@@ -11,6 +11,7 @@ class Food {
   void render() {
     pushMatrix();
     fill(colour);
+    stroke(colour);
     translate(location.x, location.y);
     rect(-5, -5, 10, 10);
     popMatrix();

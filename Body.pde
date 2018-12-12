@@ -23,7 +23,7 @@ class Body {
   
     nodes.set(0, new PVector(cos(heading), sin(heading)));
     for (int n = nodes.size()-1; n < bodyLength; n++ ) {
-      size = new PVector(size.x + 3, size.y * 1.1);
+      size = new PVector(size.x + 3, size.y + 1);
       nodes.add(new PVector((size.x / float(bodyLength + 1)) * n, size.y / 2.0));
     }
 		
@@ -41,6 +41,8 @@ class Body {
   void render() {
     // head
     fill(colour);
+    stroke(colour);
+    
     pushMatrix();
     rotate(heading);
     ellipse(0, 0, 15, 10);
